@@ -1,17 +1,42 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
+
 {% load staticfiles %}
-<html>
-<head>
-	<title>Rango</title>
-	<link rel="stylesheet" href="{% static 'css/base.css' %}">
-	<script src="{% static 'js/jquery.js' %}"></script>
-</head>
-<body>
-	<h1>Rango says...</h1>
-	<p>Hello world! <strong>{{ boldmessage }}</strong></p>
-	<a href="/rango/about/">About</a>
-	<p>
-		<img src="{% static 'images/rango.jpg' %}" alt="Figura do Rango">
-	</p>
-</body>
-</html>
+
+{% block title %} Página inicial {% endblock title %}
+
+{% block body_block %}
+
+	{% if user.is_authenticated %}
+		<h1>Rango diz... Hello {{ user.username }}</h1>
+	{% else %}
+		<h1>Rango diz... Hello world!</h1>
+	{% endif %}
+
+	{% if categories %}
+		<ul>
+			{% for category in categories %}
+				<li>
+					<a href="{% url 'category' category.slug %}">{{ category.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<strong>Não existem categorias cadastradas.</strong>
+	{% endif %}
+
+	{% if pages %}
+		<h2>Top 5 das páginas</h2>
+		{% for page in pages %}
+			<ul>
+				<li>
+					<a href="{{ page.url }}">{{ page.title }} - {{ page.views }}</a>
+				</li>
+			</ul>
+		{% endfor %}
+	{% else %}
+		<h2>
+			Ainda não temos likes o suficiente para definir o top 5.
+		</h2>
+	{% endif %}
+
+{% endblock body_block %}

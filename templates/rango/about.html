@@ -1,15 +1,13 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
+
 {% load staticfiles %}
-<html>
-<head>
-	<title>Rango</title>
-</head>
-<body>
+
+{% block title %} Sobre nós {% endblock title %}
+
+{% block body_block %}
 	<h1>Quem somos nós?!</h1>
 	<p>Antes me diga uma coisa:</strong></p>
 	<p>
 		<img src="{% static 'images/quem.jpg' %}" alt="Quem é você?">
 	</p>
-	<a href="/rango/">index</a>
-</body>
-</html>
+{% endblock body_block %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="pt-BR">
+	<meta charset="UTF-8">
+	<title>
+		Rango {% block title %} How to Tango with Django {% endblock title %}
+	</title>
+</head>
+<body>
+	<div>
+		{% block body_block %}{% endblock body_block %}
+	</div>
+	<hr/>
+	<div>
+		<ul>
+			{% if user.is_authenticated %}
+				<li><a href="{% url 'restricted' %}">Página Restrita</a></li>
+				<li><a href="{% url 'user_logout' %}">Logout</a></li>
+				<li><a href="{% url 'add_category' %}">Adicione uma nova Categoria</a></li>
+			{% else %}
+				<li><a href="{% url 'register' %}">Registre-se aqui</a></li>
+				<li><a href="{% url 'user_login' %}">Login</a></li>
+			{% endif %}
+			<li><a href="{% url 'about' %}">About</a></li>
+			<li><a href="{% url 'index' %}">Home</a></li>
+		</ul>
+	</div>
+</body>
+</html>

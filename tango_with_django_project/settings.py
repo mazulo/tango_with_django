@@ -99,4 +99,8 @@ TEMPLATE_DIRS = (
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Absolute path to the media directory
+# Absolute path to the media directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Settings Login
+LOGIN_URL = '/rango/login/'
