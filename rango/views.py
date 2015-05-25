@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from datetime import datetime
 
 
 def index(request):
@@ -14,11 +15,43 @@ def index(request):
     # Recupere apenas o top 5- ou todas se for menos do que 5
     pages = Page.objects.order_by('-views')[:5]
     categories = Category.objects.order_by('-likes')[:5]
-    context_dict = {'categories': categories}
-    context_dict['pages'] = pages
+    context_dict = {'categories': categories, 'pages': pages}
 
-    # Renderize a resposta e envie-a de volta
-    return render(request, 'rango/index.html', context_dict)
+    # Pegue o número de visitas ao site.
+    # Nós usamos a função COOKIES.get() para obter o cookie de visitas.
+    # Se o cookie existir, o valor retornado é convertido para um inteiro.
+    # Se o cookie não existir, por padrão setamos para zero e convertemos.
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 0
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+
+    if last_visit:
+        last_visit_time = datetime.strptime(
+            last_visit[:-7], '%Y-%m-%d %H:%M:%S'
+        )
+        if (datetime.now() - last_visit_time).days > 0:
+            # soma o valor anterior do cookie com +1
+            visits += 1
+            # e atualiza o cookie last_visit também
+            reset_last_visit_time = True
+    else:
+        # Cookie last_visit não existe, então crie ele com a data/hora atual
+        reset_last_visit_time = True
+
+    context_dict['visits'] = visits
+    request.session['visits'] = visits
+
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+
+    response = render(request, 'rango/index.html', context_dict)
+
+    # Retornar uma resposta para o usuário, atualizando
+    # quaisquer cookies que precisem ser mudados.
+    return response
 
 
 def about(request):
