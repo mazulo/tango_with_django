@@ -9,14 +9,21 @@
 	{% if errors %}
 		<p>{{ errors }}</p>
 	{% endif %}
-	<form method="post" id="login_form" action="/rango/login/">
-		{% csrf_token %}
-		<label name="username">username: 
-			<input type="text" name="username">
-		</label>
-		<label name="username">password: 
-			<input type="password" name="password">
-		</label>
-		<input type="submit" value="logar">
-	</form>
+	{% if user.is_authenticated %}
+		<form method="post" id="login_form" action="/rango/login/">
+			{% csrf_token %}
+			<label name="username">username: 
+				<input type="text" name="username">
+			</label>
+			<label name="username">password: 
+				<input type="password" name="password">
+			</label>
+			<input type="submit" value="logar">
+		</form>
+		<p>
+			<a href="{% url 'auth_password_reset' %}">Esqueceu a senha?</a>
+		</p>
+	{% else %}
+		Você já está autenticado.
+	{% endif %}
 {% endblock body_block %}

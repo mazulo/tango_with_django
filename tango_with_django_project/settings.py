@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rango',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,5 +103,11 @@ MEDIA_URL = '/media/'
 # Absolute path to the media directory
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Settings Login
-LOGIN_URL = '/rango/login/'
+# Django Registration Redux settings
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+LOGIN_REDIRECT_URL = '/rango/'
+LOGIN_URL = '/accounts/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

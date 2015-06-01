@@ -15,11 +15,11 @@
 		<ul>
 			{% if user.is_authenticated %}
 				<li><a href="{% url 'restricted' %}">Página Restrita</a></li>
-				<li><a href="{% url 'user_logout' %}">Logout</a></li>
+				<li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
 				<li><a href="{% url 'add_category' %}">Adicione uma nova Categoria</a></li>
 			{% else %}
-				<li><a href="{% url 'register' %}">Registre-se aqui</a></li>
-				<li><a href="{% url 'user_login' %}">Login</a></li>
+				<li><a href="{% url 'registration_register' %}">Registre-se aqui</a></li>
+				<li><a href="{% url 'auth_login' %}">Login</a></li>
 			{% endif %}
 			<li><a href="{% url 'about' %}">About</a></li>
 			<li><a href="{% url 'index' %}">Home</a></li>
